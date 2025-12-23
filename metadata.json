@@ -1,0 +1,5 @@
+{
+  "name": "Cylinder Tracker",
+  "description": "Track cylinder pickups and deliveries with automated WhatsApp message generation.",
+  "requestFramePermissions": []
+}
