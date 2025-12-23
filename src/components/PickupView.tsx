@@ -255,8 +255,19 @@ Big Cylinder No.s: ${bigNumbers.join(', ')}`;
 
   const shareOnWhatsApp = () => {
     if (generatedMessage) {
+      // Add to inventory first
+      if (smallNumbers.length > 0) addCylinders(smallNumbers, 'Small');
+      if (bigNumbers.length > 0) addCylinders(bigNumbers, 'Big');
+
+      // Open WhatsApp
       const url = `https://wa.me/?text=${encodeURIComponent(generatedMessage)}`;
       window.open(url, '_blank');
+
+      // Reset and complete
+      setSmallNumbers([]);
+      setBigNumbers([]);
+      setGeneratedMessage(null);
+      onComplete();
     }
   };
 
@@ -316,30 +327,23 @@ Big Cylinder No.s: ${bigNumbers.join(', ')}`;
             {generatedMessage}
           </pre>
           
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <button
-              onClick={copyToClipboard}
-              className="flex items-center justify-center gap-2 py-2.5 bg-white text-gray-700 rounded-lg border border-gray-200 font-medium hover:bg-gray-50"
-            >
-              <Copy className="w-4 h-4" />
-              Copy
-            </button>
+          <div className="flex flex-col gap-3 mb-4">
             <button
               onClick={shareOnWhatsApp}
-              className="flex items-center justify-center gap-2 py-2.5 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600"
+              className="w-full flex items-center justify-center gap-2 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 shadow-lg shadow-green-200"
             >
-              <Share2 className="w-4 h-4" />
-              WhatsApp
+              <Share2 className="w-5 h-5" />
+              Open WhatsApp & Add to Inventory
+            </button>
+            
+            <button
+              onClick={copyToClipboard}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-white text-gray-700 rounded-xl border border-gray-200 font-medium hover:bg-gray-50"
+            >
+              <Copy className="w-5 h-5" />
+              Copy Message Only
             </button>
           </div>
-
-          <button
-            onClick={handleConfirm}
-            className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 flex items-center justify-center gap-2"
-          >
-            Confirm & Add to Inventory
-            <ArrowRight className="w-4 h-4" />
-          </button>
         </motion.div>
       )}
     </div>

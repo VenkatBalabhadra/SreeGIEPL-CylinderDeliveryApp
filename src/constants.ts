@@ -5,5 +5,6 @@ export const CUSTOMERS = [
   { id: '4', name: 'Peddi Reddy Restaurant', address: 'ST Rajapuram' },
   { id: '5', name: 'Raj Kumar Teapoint', address: 'ST Rajapuram' },
   { id: '6', name: 'Royal King Dhaba', address: 'Diwancheruvu' },
-  { id: '7', name: 'Ruchi Catering', address: 'Rajahmundry' }
+  { id: '7', name: 'Ruchi Catering', address: 'Rajahmundry' },
+  { id: '8', name: 'Other Customer', address: 'Other Customer' }
 ];

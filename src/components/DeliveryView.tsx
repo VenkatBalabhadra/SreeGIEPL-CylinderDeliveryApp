@@ -97,8 +97,32 @@ Date and Time of Delivery: ${dateStr}`;
 
   const shareOnWhatsApp = () => {
     if (generatedMessage) {
+      // Perform completion logic
+      const selectedCylinders = inventory.filter(c => selectedIds.has(c.id));
+      const smallDelivered = selectedCylinders.filter(c => c.type === 'Small').map(c => c.number);
+      const bigDelivered = selectedCylinders.filter(c => c.type === 'Big').map(c => c.number);
+
+      addDeliveryRecord({
+        customerName,
+        address,
+        deliveredSmall: smallDelivered,
+        deliveredBig: bigDelivered,
+        timestamp: new Date(),
+      });
+
+      removeCylinders(Array.from(selectedIds));
+
+      // Open WhatsApp
       const url = `https://wa.me/?text=${encodeURIComponent(generatedMessage)}`;
       window.open(url, '_blank');
+
+      // Reset
+      setCustomerName('');
+      setAddress('');
+      setSelectedCustomer('');
+      setSelectedIds(new Set());
+      setGeneratedMessage(null);
+      onComplete();
     }
   };
 
@@ -251,30 +275,23 @@ Date and Time of Delivery: ${dateStr}`;
             {generatedMessage}
           </pre>
           
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <button
-              onClick={copyToClipboard}
-              className="flex items-center justify-center gap-2 py-2.5 bg-white text-gray-700 rounded-lg border border-gray-200 font-medium hover:bg-gray-50"
-            >
-              <Copy className="w-4 h-4" />
-              Copy
-            </button>
+          <div className="flex flex-col gap-3 mb-4">
             <button
               onClick={shareOnWhatsApp}
-              className="flex items-center justify-center gap-2 py-2.5 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600"
+              className="w-full flex items-center justify-center gap-2 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 shadow-lg shadow-green-200"
             >
-              <Share2 className="w-4 h-4" />
-              WhatsApp
+              <Share2 className="w-5 h-5" />
+              Open WhatsApp & Complete Delivery
+            </button>
+            
+            <button
+              onClick={copyToClipboard}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-white text-gray-700 rounded-xl border border-gray-200 font-medium hover:bg-gray-50"
+            >
+              <Copy className="w-5 h-5" />
+              Copy Message Only
             </button>
           </div>
-
-          <button
-            onClick={handleComplete}
-            className="w-full py-3 bg-green-600 text-white rounded-xl font-bold shadow-lg shadow-green-200 hover:bg-green-700 flex items-center justify-center gap-2"
-          >
-            Complete Delivery
-            <CheckCircle className="w-4 h-4" />
-          </button>
         </motion.div>
       )}
     </div>

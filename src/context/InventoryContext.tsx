@@ -77,12 +77,10 @@ export const InventoryProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const resetAll = () => {
-    if (window.confirm('Are you sure you want to clear ALL data? This includes current inventory and delivery history. This cannot be undone.')) {
-      setInventory([]);
-      setHistory([]);
-      localStorage.removeItem('cylinder_inventory');
-      localStorage.removeItem('delivery_history');
-    }
+    setInventory([]);
+    setHistory([]);
+    localStorage.removeItem('cylinder_inventory');
+    localStorage.removeItem('delivery_history');
   };
 
   return (
